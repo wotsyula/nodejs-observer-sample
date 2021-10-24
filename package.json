@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-observer-sample",
+  "version": "0.0.0",
+  "description": "This repository is meant to showcase my talents as a back-end engineer to potential employers. It is programmed entirely in Node.js with Travis-CI for CI and Docker as its IAC.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wotsyula/nodejs-observer-sample.git"
+  },
+  "keywords": [
+    "bullmq",
+    "docker",
+    "kubernetes",
+    "REST",
+    "travis-ci"
+  ],
+  "author": "Walter Otsyula <wotsyula@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wotsyula/nodejs-observer-sample/issues"
+  },
+  "homepage": "https://github.com/wotsyula/nodejs-observer-sample#readme"
+}
