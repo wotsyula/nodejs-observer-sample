@@ -30,7 +30,7 @@ To create a HTTTP notification system. A server (or set of servers) will keep tr
 
 # Methodology
 
-To see my thought process and all design decisions made, please check out the [original proposal](https://github.com/wotsyula/nodejs-observer-sample/wiki/Proposal)
+To see my thought process and all design decisions made, please check out the [original proposal](https://github.com/wotsyula/nodejs-observer-sample/wiki/Q4-Sprint-1:-Proposal)
 
 # Build
 
