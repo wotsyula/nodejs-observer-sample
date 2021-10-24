@@ -36,7 +36,10 @@ To see my thought process and all design decisions made, please check out the [o
 
 ### Prequesites
 
-TODO
+- [Homebrew](https://brew.sh/) or [APT](https://en.wikipedia.org/wiki/APT_(software))
+- [NVM](https://github.com/nvm-sh/nvm)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [VS Code](https://code.visualstudio.com/docs/setup/setup-overview)
 
 ### Local Development Environment
 
@@ -44,7 +47,13 @@ TODO
 
 ### Environment Variables
 
-TODO
+| NAME                 	| TYPE 	| Default           	| Description
+|:--------------------:	|:----:	|:--------------------:	|:-----------------
+| DB_URI               	| STR  	| -                    	| Database URI connection string
+| BATCH_MAX_PUBLISH    	| NUM  	| 10                    | Number of jobs a worker node can handle at a given time
+| PUBLISH_ATTEMPTS     	| NUM  	| 10                   	| Number of times to try to publish before giving up
+| SERVER_HOST          	| STR  	| localhost            	| Host to bind to
+| SERVER_PORT          	| NUM  	| 3000                 	| Port to bind to
 
 ### Docker
 
