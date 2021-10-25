@@ -3,6 +3,7 @@
 You can link a pull request to an issue by using a supported keyword in the pull request's description
 or in a commit message (please note that the pull request must be on the default branch).
 
+ADDRESSES
 CLOSES
 FIXES
 RESOLVES
@@ -18,7 +19,7 @@ RESOLVES
 
 ## ⚠️ Risk assessment
 
-**tl;dr** This pull request is a **low / medium / high** risk change.
+**tl;dr** This pull request is a **LOW / MEDIUM / HIGH** risk change.
 
 ### Identification
 
@@ -36,9 +37,10 @@ I've taken the following steps to manage the risk of deploying this PR:
 
 ### Recovery strategy
 
-This change **can be / cannot be** reverted and rolled back if something goes wrong.
+This change **CAN BE / CANNOT BE** reverted and rolled back if something goes wrong.
 
 ## ☑️ Checklist
+
 - [ ] Have you reviewed the GitHub issue?
 
 ## Code Review Policy
