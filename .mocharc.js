@@ -7,12 +7,21 @@
 
 module.exports = {
   require: ['./config/setup-mocha.js'],
-  spec: ['lib/**/*.test.js', 'src/**/*.test.js'],
+  spec: [
+    'eslint.test.js',
+    'app/**/*.test.js',
+    'lib/**/*.test.js',
+    'src/**/*.test.js',
+  ],
   'check-leaks': true,
   'inline-diffs': true,
   jobs: 10,
   parallel: true,
   retries: 1,
-  'watch-files': ['lib/**/*.js', 'src/**/*.js'],
+  'watch-files': [
+    'app/**/*.js',
+    'lib/**/*.js',
+    'src/**/*.js',
+  ],
   'watch-ignore': ['lib/vendor']
 };

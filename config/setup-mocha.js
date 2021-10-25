@@ -22,17 +22,17 @@ const sleep = (milliseconds) => {
 
   return new Promise((resolve, reject) => {
     setTimeout(resolve, milliseconds);
-  })
-}
+  });
+};
 
 const mochaHooks = {
-  beforeEach() {
+  beforeEach () {
     this.sleep = sleep;
   },
 
-  afterEach() {
+  afterEach () {
     delete this.sleep;
-  }
+  },
 };
-  
+
 module.exports = { mochaHooks };
