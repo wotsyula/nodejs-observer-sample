@@ -36,4 +36,3 @@ const mochaHooks = {
 };
   
 module.exports = { mochaHooks };
-  

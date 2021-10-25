@@ -16,4 +16,3 @@ module.exports = {
   'watch-files': ['lib/**/*.js', 'src/**/*.js'],
   'watch-ignore': ['lib/vendor']
 };
-  
