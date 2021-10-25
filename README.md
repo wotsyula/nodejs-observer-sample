@@ -5,7 +5,6 @@ This repository is meant to showcase my talents as a back-end engineer to potent
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/wotsyula/nodejs-observer-sample)](https://travis-ci.com/wotsyula/nodejs-observer-sample)
 [![Coveralls](https://img.shields.io/coveralls/github/wotsyula/nodejs-observer-sample)](https://coveralls.io/github/wotsyula/nodejs-observer-sample)
-![Dependencies](https://img.shields.io/david/dev/wotsyula/nodejs-observer-sample)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # Table of Contents
