@@ -6,12 +6,11 @@
 // Otherwise, JSON or YAML is recommended.
 
 module.exports = {
-  require: ['./config/setup-mocha.js'],
+  require: ['./config/setup-mocha.cjs'],
   spec: [
-    'eslint.test.js',
-    'app/**/*.test.js',
-    'lib/**/*.test.js',
-    'src/**/*.test.js',
+    'app/**/*-test.mjs',
+    'lib/**/*-test.mjs',
+    'src/**/*-test.mjs',
   ],
   'check-leaks': true,
   'inline-diffs': true,
@@ -19,9 +18,17 @@ module.exports = {
   parallel: true,
   retries: 1,
   'watch-files': [
-    'app/**/*.js',
-    'lib/**/*.js',
-    'src/**/*.js',
+    'app/**/*.mjs',
+    'lib/**/*.mjs',
+    'src/**/*.mjs',
   ],
-  'watch-ignore': ['lib/vendor']
+  'watch-ignore': ['lib/vendor'],
+  "overrides": [
+    {
+      "files": ["*-test.mjs", "*-spec.mjs"],
+      "rules": {
+        "no-unused-expressions": "off",
+      },
+    },
+  ],
 };

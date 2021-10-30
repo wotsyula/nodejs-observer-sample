@@ -31,7 +31,6 @@ const mochaHooks = {
   },
 
   afterEach () {
-    delete this.sleep;
   },
 };
 
