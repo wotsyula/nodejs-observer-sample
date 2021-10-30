@@ -1,5 +1,6 @@
-const glob = require('glob');
-const lint = require('mocha-eslint');
+import glob from 'glob';
+import lint from 'mocha-eslint';
+
 const paths = glob.sync('./+(app|config|lib|src)/**/*.js');
 const options = {
   // Consider linting warnings as errors and return failure

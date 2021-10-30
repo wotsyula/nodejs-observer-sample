@@ -1,13 +1,12 @@
-'use strict';
+import chai from 'chai';
+import sinonChai from 'sinon-chai';
+import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 
 // Set up Chai ----------------------------------
 
-const chai = require('chai');
-const sinonChai = require('sinon-chai');
-const chaiHTTP = require('chai-http');
-
 chai.use(sinonChai);
-chai.use(chaiHTTP);
+chai.use(chaiHttp);
 
 // Set up Mocha ----------------------------------
 
@@ -20,19 +19,18 @@ const sleep = (milliseconds) => {
     throw new TypeError(`milliseconds must be a number 0 - ${Number.MAX_SAFE_INTEGER}`);
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, milliseconds);
   });
 };
 
-const mochaHooks = {
+export const mochaHooks = {
   beforeEach () {
     this.sleep = sleep;
+    this.server = sinon.fakeServer.create();
   },
 
   afterEach () {
-    delete this.sleep;
+    this.server.restore();
   },
 };
-
-module.exports = { mochaHooks };
