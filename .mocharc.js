@@ -6,7 +6,7 @@
 // Otherwise, JSON or YAML is recommended.
 
 module.exports = {
-  require: ['./config/setup-mocha.mjs'],
+  require: ['./config/setup-mocha.cjs'],
   spec: [
     'app/**/*-test.mjs',
     'lib/**/*-test.mjs',
