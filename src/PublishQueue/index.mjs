@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { Queue, QueueScheduler } from 'bullmq';
 import { Validator } from 'jsonschema';
-import * as _ from './constants.mjs';
+import * as _ from '../constants.mjs';
 
 const schemaValidator = new Validator();
 const schemaJSON = JSON.parse(readFileSync(_.DATA_SCHEMA_JSON));

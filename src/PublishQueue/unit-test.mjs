@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as _ from './constants.mjs';
+import * as _ from '../constants.mjs';
 import PublishQueue from './index.mjs';
 
 describe('UNIT | PubishQueue', function () {
