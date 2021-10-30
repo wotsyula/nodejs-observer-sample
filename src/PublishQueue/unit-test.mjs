@@ -1,12 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as _ from './PublishQueue-constants.mjs';
-import PublishQueue from './PublishQueue.mjs';
+import * as _ from './constants.mjs';
+import PublishQueue from './index.mjs';
 
 describe('UNIT | PubishQueue', function () {
   beforeEach(function () {
     this.queue = new PublishQueue(_.TEST_CONFIGURATION);
     sinon.spy(this.queue);
+  });
+
+  afterEach(function () {
+    this.queue.destroy();
   });
 
   describe('create()', function () {
@@ -19,7 +23,7 @@ describe('UNIT | PubishQueue', function () {
     describe('with valid arguments', function () {
       it('should return true', function () {
         _.VALID_TOPICS.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.true();
+          expect(PublishQueue.validateTopic(topic), topic).to.equal(true);
         });
       });
     });
@@ -27,7 +31,7 @@ describe('UNIT | PubishQueue', function () {
     describe('with invalid arguments', function () {
       it('should return false', function () {
         _.INVALID_TOPICS.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.false();
+          expect(PublishQueue.validateTopic(topic), topic).to.equal(false);
         });
       });
     });
@@ -36,16 +40,16 @@ describe('UNIT | PubishQueue', function () {
   describe('validateURL()', function () {
     describe('with valid arguments', function () {
       it('should return true', function () {
-        _.VALID_URLS.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.true();
+        _.VALID_URLS.forEach((endpoint) => {
+          expect(PublishQueue.validateURL(endpoint), endpoint).to.equal(true);
         });
       });
     });
 
     describe('with invalid arguments', function () {
       it('should return false', function () {
-        _.INVALID_URLS.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.false();
+        _.INVALID_URLS.forEach((endpoint) => {
+          expect(PublishQueue.validateURL(endpoint), endpoint).to.equal(false);
         });
       });
     });
@@ -54,16 +58,16 @@ describe('UNIT | PubishQueue', function () {
   describe('validateData()', function () {
     describe('with valid arguments', function () {
       it('should return true', function () {
-        _.VALID_DATA.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.true();
+        _.VALID_DATA.forEach((data) => {
+          expect(PublishQueue.validateData(data), JSON.stringify(data)).to.equal(true);
         });
       });
     });
 
     describe('with invalid arguments', function () {
       it('should return false', function () {
-        _.INVALID_DATA.forEach((topic) => {
-          expect(this.queue.validateTopic(topic)).to.be.false();
+        _.INVALID_DATA.forEach((data) => {
+          expect(PublishQueue.validateData(data), JSON.stringify(data)).to.equal(false);
         });
       });
     });
@@ -76,10 +80,10 @@ describe('UNIT | PubishQueue', function () {
 
     it('should call validateTopic() and validateURL()', function () {
       this.queue.subscribe(_.TEST_TOPIC, _.TEST_ENDPOINT);
-      expect(this.queue.validateTopic).called();
-      expect(this.queue.validateTopic).calledWith(_.TEST_TOPIC);
-      expect(this.queue.validateURL).called();
-      expect(this.queue.validateURL).calledWith(_.TEST_TOPIC);
+      expect(PublishQueue.validateTopic).called();
+      expect(PublishQueue.validateTopic).calledWith(_.TEST_TOPIC);
+      expect(PublishQueue.validateURL).called();
+      expect(PublishQueue.validateURL).calledWith(_.TEST_TOPIC);
     });
   });
 
@@ -90,10 +94,10 @@ describe('UNIT | PubishQueue', function () {
 
     it('should call validateTopic() and validateData()', function () {
       this.queue.subscribe(_.TEST_TOPIC, _.TEST_ENDPOINT);
-      expect(this.queue.validateTopic).called();
-      expect(this.queue.validateTopic).calledWith(_.TEST_TOPIC);
-      expect(this.queue.validateData).called();
-      expect(this.queue.validateData).calledWith(_.TEST_DATA);
+      expect(PublishQueue.validateTopic).called();
+      expect(PublishQueue.validateTopic).calledWith(_.TEST_TOPIC);
+      expect(PublishQueue.validateData).called();
+      expect(PublishQueue.validateData).calledWith(_.TEST_DATA);
     });
   });
 });
