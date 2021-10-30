@@ -21,12 +21,30 @@ export const DEFAULT_QUEUE_OPTIONS = {
 };
 export const SLUG_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 export const DATA_SCHEMA_JSON = join(dirname(fileURLToPath(import.meta.url)), 'data-schema.json');
+export const INVALID_TOPIC_RESULT = -100;
+export const INVALID_ENDPOINT_RESULT = -200;
+export const INVALID_PAYLOAD_RESULT = -300;
+export const QUE_ADD_ERROR_RESULT = -400;
 export const TEST_CONFIGURATION = {};
 export const TEST_TOPIC = 'test';
 export const TEST_ENDPOINT = 'http://localhost:30001';
-export const TEST_DATA = {
-  foo: 'bar',
-  bar: 1,
+export const TEST_PAYLOAD = {
+  data: {
+    type: 'articles',
+    id: '1',
+    attributes: {
+      title: 'Rails is Omakase',
+    },
+    relationships: {
+      author: {
+        links: {
+          self: '/articles/1/relationships/author',
+          related: '/articles/1/author',
+        },
+        data: { type: 'people', id: '9' },
+      },
+    },
+  },
 };
 export const VALID_TOPICS = [
   TEST_TOPIC,
@@ -38,6 +56,7 @@ export const INVALID_TOPICS = [
   'CapitalLetters',
   'More--than--one--dash',
   'ends-in-dash-',
+  'an-extreamly-looooooooooooooooooooooong-topic',
 ];
 export const VALID_URLS = [
   TEST_ENDPOINT,
@@ -49,6 +68,7 @@ export const INVALID_URLS = [
   'http://example.com#foo',
 ];
 export const VALID_DATA = [
+  TEST_PAYLOAD,
   {
     data: [{
       type: 'articles',
@@ -132,7 +152,7 @@ export const VALID_DATA = [
     ],
   },
 ];
-export const INVALID_DATA = [
+export const INVALID_PAYLOADS = [
   {
     foo: 'bar',
     bar: 1,
