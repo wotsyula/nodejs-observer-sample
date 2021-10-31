@@ -16,7 +16,7 @@ describe('UNIT | PubishQueue', function () {
     PublishQueue.validateURL.restore();
     PublishQueue.validateData.restore();
     const client = await this.queue.client;
-    client.del(this.queue.generateSubscriberKey(_.TEST_TOPIC));
+    await client.del(this.queue.generateSubscriberKey(_.TEST_TOPIC));
     await this.queue.destroy();
   });
 
