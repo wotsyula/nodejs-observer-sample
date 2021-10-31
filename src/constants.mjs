@@ -2,7 +2,9 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 export const PUBLISH_QUEUE = 'publish';
-/** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions)} */
+export const START_PUBLISH_QUEUE = 'start_publish';
+export const DO_PUBLISH_QUEUE = 'do_publish';
+/** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions|import('bullmq').WorkerOptions))} */
 export const DEFAULT_QUEUE_OPTIONS = {
   autorun: true,
   connection: {
@@ -17,7 +19,7 @@ export const DEFAULT_QUEUE_OPTIONS = {
     timeout: 300000, // 1000 * 60 * 5
   },
   prefix: 'bullmq_',
-  sharedConnection: false,
+  sharedConnection: false,  
 };
 export const SLUG_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 export const DATA_SCHEMA_JSON = join(dirname(fileURLToPath(import.meta.url)), 'data-schema.json');
@@ -46,6 +48,9 @@ export const TEST_PAYLOAD = {
     },
   },
 };
+export const TEST_START_PUBLISH_JOB = {
+  name: TEST_TOPIC
+}
 export const VALID_TOPICS = [
   TEST_TOPIC,
   'contains-dash',
