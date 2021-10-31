@@ -99,6 +99,9 @@ export default class StartPublishWorker {
    * @returns {import('bullmq').Job<any, string>[]} Job ID or negative number in case of an error
    */
   async process (job) {
+    if (!job.queue) {
+      job.queue = _.PUBLISH_QUEUE;
+    }
     const subscriberKey = this.generateSubscriberKey(job.name);
     const client = await this.client;
     const results = [];
@@ -113,11 +116,10 @@ export default class StartPublishWorker {
         jobs.push({
           name: job.name,
           data: { endpoint, payload: job.data },
-          opts: {
-            parent: { ...job, queue: _.PUBLISH_QUEUE },
-          },
+          opts: { parent: job },
         });
       }
+      console.log(jobs);
       const result = await this._queue.addBulk(jobs);
       results.push(result);
     }
