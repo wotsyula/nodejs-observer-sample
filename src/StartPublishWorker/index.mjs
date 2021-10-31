@@ -30,7 +30,6 @@ export default class StartPublishWorker {
   get count () {
     return this._queue.getJobCounts('active', 'delayed', 'waiting')
       .then((jobcounts) => {
-        console.log(jobcounts);
         return jobcounts.waiting + jobcounts.active + jobcounts.delayed;
       });
   }
@@ -110,12 +109,17 @@ export default class StartPublishWorker {
     // loop through subscriber endpoints
     // TODO: log endpoint fetch
     const endpoints = await client.smembers(subscriberKey);
-    let i, z;
-    for (i = 0; i < endpoints.length; i += 100) {
+    for (let i = 0; i < endpoints.length; i += 256) {
       // TODO: log batch start
       const jobs = [];
-      for (z = i; z < endpoints.length; z++) {
-        const endpoint = endpoints[z];
+      /**
+       * NOTE:
+       * - Batch of 256 was gotten experimentally in order to ensure
+       *   that batches execute < 500ms and 10 workers take < 500 mb
+       * - This was tested with payloads 4kb in size
+       */
+      for (let k = 0; k < 256 && i + k < endpoints.length; k++) {
+        const endpoint = endpoints[i + k];
         // create do-publish job
         jobs.push({
           name: job.name,

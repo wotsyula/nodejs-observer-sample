@@ -111,7 +111,6 @@ export default class PublishQueue {
   get count () {
     return this._queue.getJobCounts('active', 'delayed', 'waiting')
       .then((jobcounts) => {
-        console.log(jobcounts);
         return jobcounts.waiting + jobcounts.active + jobcounts.delayed;
       });
   }
