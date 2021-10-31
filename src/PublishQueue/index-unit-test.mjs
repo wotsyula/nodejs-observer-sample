@@ -94,6 +94,13 @@ describe('UNIT | PubishQueue', function () {
       expect(PublishQueue.validateURL).calledWith(_.TEST_ENDPOINT);
     });
 
+    it('should handle up to 100000 (100 thousand) subscribers', async function () {
+      for (let i = 0; i < 100000; i++) {
+        const endpoint = `${_.TEST_ENDPOINT}?id=${i}`;
+        await this.queue.subscribe(_.TEST_TOPIC, endpoint);
+      }
+    }).timeout(60000);
+
     describe('with invalid topic', function () {
       it('should return INVALID_TOPIC_RESULT', async function () {
         for (const topic in _.INVALID_TOPICS) {
