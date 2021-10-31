@@ -212,7 +212,6 @@ export default class PublishQueue {
       return result.id;
     } catch (e) {
       // TODO: log error
-      console.log(e);
       return _.QUE_ADD_ERROR_RESULT;
     }
   }
