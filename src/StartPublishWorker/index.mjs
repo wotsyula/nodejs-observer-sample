@@ -84,10 +84,10 @@ export default class StartPublishWorker {
    * Destructor
    */
   async destroy () {
+    await this._worker.close();
     await this._queue.clean(0);
     await this._queueScheduler.close();
     await this._queue.close();
-    await this._worker.close();
   }
 
   generateSubscriberKey (topic) {
@@ -105,11 +105,10 @@ export default class StartPublishWorker {
     const subscriberKey = this.generateSubscriberKey(job.name);
     const client = await this.client;
     const results = [];
-    job.queue = job.queue || this._worker;
     // loop through subscriber endpoints
     // TODO: log endpoint fetch
     const endpoints = await client.smembers(subscriberKey);
-    for (let i = 0; i < endpoints.length; i += 256) {
+    while (endpoints.length > 0) {
       // TODO: log batch start
       const jobs = [];
       /**
@@ -118,13 +117,12 @@ export default class StartPublishWorker {
        *   that batches execute < 500ms and 10 workers take < 500 mb
        * - This was tested with payloads 4kb in size
        */
-      for (let k = 0; k < 256 && i + k < endpoints.length; k++) {
-        const endpoint = endpoints[i + k];
+      for (let k = 0; k < 256 && endpoints.length > 0; k++) {
+        const endpoint = endpoints.pop();
         // create do-publish job
         jobs.push({
           name: job.name,
           data: { endpoint, payload: job.data },
-          opts: { parent: job },
         });
       }
       const result = await this._queue.addBulk(jobs);
