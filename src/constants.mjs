@@ -13,13 +13,16 @@ export const DEFAULT_QUEUE_OPTIONS = {
   },
   defaultJobOptions: {
     attempts: 10,
-    backoff: '5s',
+    backoff: {
+      type: 'exponential',
+      delay: 5000,
+    },
     removeOnComplete: 1000,
     sizeLimit: 65536, // 1024 * 64
     timeout: 300000, // 1000 * 60 * 5
   },
   prefix: 'bullmq_',
-  sharedConnection: false,  
+  sharedConnection: false,
 };
 export const SLUG_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 export const DATA_SCHEMA_JSON = join(dirname(fileURLToPath(import.meta.url)), 'data-schema.json');
