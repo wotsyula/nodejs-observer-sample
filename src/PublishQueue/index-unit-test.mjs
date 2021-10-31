@@ -134,6 +134,13 @@ describe('UNIT | PubishQueue', function () {
       expect(PublishQueue.validateData).calledWith(_.TEST_PAYLOAD);
     });
 
+    it('should increase count', async function () {
+      const originalCount = await this.queue.count;
+      await this.queue.publish(_.TEST_TOPIC, _.TEST_PAYLOAD);
+      const result = await this.queue.count;
+      expect(result).to.equal(originalCount + 1);
+    });
+
     describe('with invalid topic', function () {
       it('should return INVALID_TOPIC_RESULT', async function () {
         for (const topic in _.INVALID_TOPICS) {
@@ -150,15 +157,6 @@ describe('UNIT | PubishQueue', function () {
           expect(result, payload).to.equal(_.INVALID_PAYLOAD_RESULT.toString());
         }
       });
-    });
-  });
-
-  describe('count', function () {
-    it('should return the current number of jobs', async function () {
-      const originalCount = await this.queue.count;
-      await this.queue.publish(_.TEST_TOPIC, _.TEST_PAYLOAD);
-      const result = await this.queue.count;
-      expect(result).to.equal(originalCount + 1);
     });
   });
 });
