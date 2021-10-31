@@ -59,6 +59,8 @@ export default class StartPublishWorker {
     this._prefix = opts.prefix || '';
 
     /**
+     * Queue to create `start-publish` jobs on.
+     *
      * @private
      * @property {Queue}
      */
@@ -71,6 +73,8 @@ export default class StartPublishWorker {
     this._queueScheduler = new QueueScheduler(_.START_PUBLISH_QUEUE, opts);
 
     /**
+     * Que to pull `publish` events from.
+     *
      * @private
      * @property {Worker}
      */
@@ -96,19 +100,19 @@ export default class StartPublishWorker {
    *
    * @async
    * @param {import('bullmq').Job} job Job to process.
-   * @returns {import('bullmq').Job<any, string>[]} Job ID or negative number in case of an error
+   * @returns {import('bullmq').Job<any, string>[]} Array of jobs created
    */
   async process (job) {
-    if (!job.queue) {
-      job.queue = _.PUBLISH_QUEUE;
-    }
     const subscriberKey = this.generateSubscriberKey(job.name);
     const client = await this.client;
     const results = [];
+    job.queue = job.queue || this._worker;
     // loop through subscriber endpoints
+    // TODO: log endpoint fetch
     const endpoints = await client.smembers(subscriberKey);
     let i, z;
     for (i = 0; i < endpoints.length; i += 100) {
+      // TODO: log batch start
       const jobs = [];
       for (z = i; z < endpoints.length; z++) {
         const endpoint = endpoints[z];
@@ -119,9 +123,9 @@ export default class StartPublishWorker {
           opts: { parent: job },
         });
       }
-      console.log(jobs);
       const result = await this._queue.addBulk(jobs);
       results.push(result);
+      // TODO: log batch end
     }
     return results;
   }
