@@ -77,6 +77,8 @@ export default class PublishQueue {
         const parsedURL = new URL(endpoint);
         return (
           PublishQueue.validateProtocol(parsedURL.protocol) &&
+          parsedURL.hostname &&
+          parsedURL.pathname &&
           !parsedURL.hash
         );
       } catch (e) {
@@ -161,7 +163,7 @@ export default class PublishQueue {
   }
 
   generateSubscriberKey (topic) {
-    return this._prefix + 'topic_' + topic;
+    return this._prefix + 'topic:' + topic;
   }
 
   /**

@@ -91,7 +91,7 @@ export default class StartPublishWorker {
   }
 
   generateSubscriberKey (topic) {
-    return this._prefix + 'topic_' + topic;
+    return this._prefix + 'topic:' + topic;
   }
 
   /**
@@ -108,7 +108,7 @@ export default class StartPublishWorker {
     // loop through subscriber endpoints
     // TODO: log endpoint fetch
     const endpoints = await client.smembers(subscriberKey);
-    while (endpoints.length > 0) {
+    while (endpoints.length > 0 && this._worker.isRunning()) {
       // TODO: log batch start
       const jobs = [];
       /**
