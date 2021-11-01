@@ -14,9 +14,9 @@ module.exports = {
   ],
   'check-leaks': true,
   'inline-diffs': true,
-  jobs: 10,
-  parallel: true,
+  parallel: false,
   retries: 1,
+  exit: true,
   'watch-files': [
     'app/**/*.mjs',
     'lib/**/*.mjs',

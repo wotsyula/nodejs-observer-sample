@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as _ from './constants.mjs';
+import * as _ from '../constants.mjs';
 import PublishQueue from './index.mjs';
 
 describe('UNIT | PubishQueue', function () {
@@ -16,7 +16,7 @@ describe('UNIT | PubishQueue', function () {
     PublishQueue.validateURL.restore();
     PublishQueue.validateData.restore();
     const client = await this.queue.client;
-    client.del(this.queue.generateSubscriberKey(_.TEST_TOPIC));
+    await client.del(this.queue.generateSubscriberKey(_.TEST_TOPIC));
     await this.queue.destroy();
   });
 
@@ -94,6 +94,13 @@ describe('UNIT | PubishQueue', function () {
       expect(PublishQueue.validateURL).calledWith(_.TEST_ENDPOINT);
     });
 
+    it('should handle up to 100000 (100 thousand) subscribers', async function () {
+      for (let i = 0; i < 100000; i++) {
+        const endpoint = `${_.TEST_ENDPOINT}?id=${i}`;
+        await this.queue.subscribe(_.TEST_TOPIC, endpoint);
+      }
+    }).timeout(60000);
+
     describe('with invalid topic', function () {
       it('should return INVALID_TOPIC_RESULT', async function () {
         for (const topic in _.INVALID_TOPICS) {
@@ -105,7 +112,7 @@ describe('UNIT | PubishQueue', function () {
 
     describe('with invalid enpoint', function () {
       it('should return INVALID_ENDPOINT_RESULT', async function () {
-        for (const endpoint in _.INVALID_ENDPOINTS) {
+        for (const endpoint in _.INVALID_URLS) {
           const result = await this.queue.subscribe(_.TEST_TOPIC, endpoint);
           expect(result, endpoint).to.equal(_.INVALID_ENDPOINT_RESULT);
         }
@@ -127,6 +134,13 @@ describe('UNIT | PubishQueue', function () {
       expect(PublishQueue.validateData).calledWith(_.TEST_PAYLOAD);
     });
 
+    it('should increase count', async function () {
+      const originalCount = await this.queue.count;
+      await this.queue.publish(_.TEST_TOPIC, _.TEST_PAYLOAD);
+      const result = await this.queue.count;
+      expect(result).to.equal(originalCount + 1);
+    });
+
     describe('with invalid topic', function () {
       it('should return INVALID_TOPIC_RESULT', async function () {
         for (const topic in _.INVALID_TOPICS) {
@@ -143,15 +157,6 @@ describe('UNIT | PubishQueue', function () {
           expect(result, payload).to.equal(_.INVALID_PAYLOAD_RESULT.toString());
         }
       });
-    });
-  });
-
-  describe('count', function () {
-    it('should return the current number of jobs', async function () {
-      const originalCount = await this.queue.count;
-      await this.queue.publish(_.TEST_TOPIC, _.TEST_PAYLOAD);
-      const result = await this.queue.count;
-      expect(result).to.equal(originalCount + 1);
     });
   });
 });

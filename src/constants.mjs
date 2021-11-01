@@ -2,7 +2,9 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 export const PUBLISH_QUEUE = 'publish';
-/** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions)} */
+export const START_PUBLISH_QUEUE = 'start_publish';
+export const DO_PUBLISH_QUEUE = 'do_publish';
+/** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions|import('bullmq').WorkerOptions))} */
 export const DEFAULT_QUEUE_OPTIONS = {
   autorun: true,
   connection: {
@@ -11,7 +13,10 @@ export const DEFAULT_QUEUE_OPTIONS = {
   },
   defaultJobOptions: {
     attempts: 10,
-    backoff: '5s',
+    backoff: {
+      type: 'exponential',
+      delay: 5000,
+    },
     removeOnComplete: 1000,
     sizeLimit: 65536, // 1024 * 64
     timeout: 300000, // 1000 * 60 * 5
@@ -45,6 +50,10 @@ export const TEST_PAYLOAD = {
       },
     },
   },
+};
+export const TEST_START_PUBLISH_JOB = {
+  name: TEST_TOPIC,
+  data: TEST_PAYLOAD,
 };
 export const VALID_TOPICS = [
   TEST_TOPIC,

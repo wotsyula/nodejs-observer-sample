@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { Queue, QueueScheduler } from 'bullmq';
 import { Validator } from 'jsonschema';
-import * as _ from './constants.mjs';
+import * as _ from '../constants.mjs';
 
 const schemaValidator = new Validator();
 const schemaJSON = JSON.parse(readFileSync(_.DATA_SCHEMA_JSON));
@@ -111,7 +111,6 @@ export default class PublishQueue {
   get count () {
     return this._queue.getJobCounts('active', 'delayed', 'waiting')
       .then((jobcounts) => {
-        console.log(jobcounts);
         return jobcounts.waiting + jobcounts.active + jobcounts.delayed;
       });
   }
@@ -212,7 +211,6 @@ export default class PublishQueue {
       return result.id;
     } catch (e) {
       // TODO: log error
-      console.log(e);
       return _.QUE_ADD_ERROR_RESULT;
     }
   }
