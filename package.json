@@ -4,7 +4,7 @@
   "description": "This repository is meant to showcase my talents as a back-end engineer to potential employers. It is programmed entirely in Node.js with Travis-CI for CI and Docker as its IAC.",
   "main": "bin/server.js",
   "scripts": {
-    "build": "echo 'Building...",
+    "build": "echo 'Building...'",
     "test": "c8 --reporter=html --reporter=text mocha",
     "coverage": "c8 report --reporter=text-lcov | coveralls",
     "lint": "eslint '**/*.js'"
