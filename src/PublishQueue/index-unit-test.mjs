@@ -112,7 +112,7 @@ describe('UNIT | PubishQueue', function () {
 
     describe('with invalid enpoint', function () {
       it('should return INVALID_ENDPOINT_RESULT', async function () {
-        for (const endpoint in _.INVALID_ENDPOINTS) {
+        for (const endpoint in _.INVALID_URLS) {
           const result = await this.queue.subscribe(_.TEST_TOPIC, endpoint);
           expect(result, endpoint).to.equal(_.INVALID_ENDPOINT_RESULT);
         }
