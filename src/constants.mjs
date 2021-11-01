@@ -52,8 +52,9 @@ export const TEST_PAYLOAD = {
   },
 };
 export const TEST_START_PUBLISH_JOB = {
-  name: TEST_TOPIC
-}
+  name: TEST_TOPIC,
+  data: TEST_PAYLOAD,
+};
 export const VALID_TOPICS = [
   TEST_TOPIC,
   'contains-dash',

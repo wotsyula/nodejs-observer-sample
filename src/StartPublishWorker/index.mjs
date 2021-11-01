@@ -128,6 +128,7 @@ export default class StartPublishWorker {
       const result = await this._queue.addBulk(jobs);
       results.push(result);
       // TODO: log batch end
+      job.progress = endpoints.length;
     }
     return results;
   }
