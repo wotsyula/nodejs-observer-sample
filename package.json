@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "bullmq": "^1.51.1",
-    "jsonschema": "^1.4.0"
+    "jsonschema": "^1.4.0",
+    "superagent": "^6.1.0"
   }
 }
