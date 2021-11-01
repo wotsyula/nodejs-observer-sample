@@ -16,6 +16,7 @@ module.exports = {
   'inline-diffs': true,
   parallel: false,
   retries: 1,
+  exit: true,
   'watch-files': [
     'app/**/*.mjs',
     'lib/**/*.mjs',
