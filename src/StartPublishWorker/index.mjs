@@ -91,7 +91,7 @@ export default class StartPublishWorker {
   }
 
   generateSubscriberKey (topic) {
-    return this._prefix + 'topic:' + topic;
+    return this._prefix + 'subscriber:endpoints:' + topic;
   }
 
   /**
