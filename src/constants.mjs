@@ -21,7 +21,7 @@ export const DEFAULT_QUEUE_OPTIONS = {
     sizeLimit: 65536, // 1024 * 64
     timeout: 300000, // 1000 * 60 * 5
   },
-  prefix: 'bullmq_',
+  prefix: '{bullmq}',
   sharedConnection: false,
 };
 export const SLUG_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
