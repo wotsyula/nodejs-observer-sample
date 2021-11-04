@@ -1,9 +1,7 @@
-import { Queue } from 'bullmq';
 import { expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
 import * as _ from '../constants.mjs';
-import PublishQueue from '../PublishQueue/index.mjs';
 import StartPublishWorker from '../StartPublishWorker/index.mjs';
 import DoPublishWorker from './index.mjs';
 
@@ -44,10 +42,11 @@ describe('UNIT | DoPubishWorker', function () {
       expect(result).to.equal(200);
     });
 
-    it('should throw an error with invalid data', function () {
-      _.INVALID_DO_PUBLISH_JOBS.forEach((job) => {
-        expect(this.worker.process.bind(this.worker, job));
+    it('should throw an error with invalid data', async function () {
+      const assertions = _.INVALID_DO_PUBLISH_JOBS.map((job) => {
+        return expect(this.worker.process(job), JSON.stringify(job)).to.be.rejectedWith(TypeError);
       });
+      return assertions;
     });
 
     it('should handle 5xx errors', async function () {
