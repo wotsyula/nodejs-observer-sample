@@ -22,13 +22,9 @@ curl --output - $REDIS_URL | tar -xz
 # Build -----------------------------------------------------------------------
 
 cd $REDIS_FILE
-
-if [ ! make ]: then
-  echo "Error. Reverting..."
-  cd ..
-  rm -rf $REDIS_FILE
-fi
+make
 
 # Run -------------------------------------------------------------------------
 
+echo "Starting redis server..."
 src/redis-server
