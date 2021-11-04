@@ -144,21 +144,21 @@ export default class PublishQueue {
      * @private
      * @property {Queue}
      */
-    this._queue = new Queue(_.PUBLISH_QUEUE, opts);
+    this._queue = new Queue(_.START_PUBLISH_QUEUE, opts);
 
     /**
      * @private
      * @property {QueueScheduler}
      */
-    this._queueScheduler = new QueueScheduler(_.PUBLISH_QUEUE, opts);
+    this._queueScheduler = new QueueScheduler(_.START_PUBLISH_QUEUE, opts);
   }
 
   /**
    * Destructor
    */
   async destroy () {
-    await this._queue.clean(0);
     await this._queueScheduler.close();
+    await this._queue.drain(true);
     await this._queue.close();
   }
 

@@ -67,9 +67,24 @@ export default class DoPublishWorker {
    * @returns {number} Returns status code returned by `superagent`
    */
   async process (job) {
+    if (!PublishQueue.validateTopic(job.name)) {
+      throw new TypeError('Invalid topic');
+    }
+
+    if (!PublishQueue.validateURL(job.data.endpoint)) {
+      throw new TypeError('Invalid subscriber');
+    }
+
+    if (!PublishQueue.validateData(job.data.payload)) {
+      throw new TypeError('Invalid payload');
+    }
+
+    if (!this._worker.isRunning) {
+      return null;
+    }
+
     const topic = job.name;
     const { endpoint, payload } = job.data;
-
     const result = await superagent
       .post(endpoint)
       .timeout({

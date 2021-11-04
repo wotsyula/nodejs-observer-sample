@@ -1,12 +1,10 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-export const PUBLISH_QUEUE = 'publish';
-export const START_PUBLISH_QUEUE = 'start_publish';
-export const DO_PUBLISH_QUEUE = 'do_publish';
+export const START_PUBLISH_QUEUE = 'publish:start';
+export const DO_PUBLISH_QUEUE = 'publish:do';
 /** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions|import('bullmq').WorkerOptions))} */
 export const DEFAULT_QUEUE_OPTIONS = {
-  autorun: true,
   connection: {
     host: '0.0.0.0',
     port: 6379,
@@ -185,5 +183,19 @@ export const INVALID_PAYLOADS = [
   {
     foo: 'bar',
     bar: 1,
+  },
+];
+export const INVALID_DO_PUBLISH_JOBS = [
+  {
+    name: INVALID_TOPICS[0],
+    data: { endpoint: TEST_ENDPOINT, payload: TEST_PAYLOAD },
+  },
+  {
+    name: TEST_TOPIC,
+    data: { endpoint: INVALID_URLS[0], payload: TEST_PAYLOAD },
+  },
+  {
+    name: TEST_TOPIC,
+    data: { endpoint: TEST_ENDPOINT, payload: INVALID_PAYLOADS[0] },
   },
 ];
