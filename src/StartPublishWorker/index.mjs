@@ -58,26 +58,26 @@ export default class StartPublishWorker {
     this._prefix = opts.prefix || '';
 
     /**
-     * Queue to create `start-publish` jobs on.
-     *
-     * @private
-     * @property {Queue}
-     */
-    this._queue = new Queue(_.START_PUBLISH_QUEUE, opts);
-
-    /**
-     * @private
-     * @property {QueueScheduler}
-     */
-    this._queueScheduler = new QueueScheduler(_.START_PUBLISH_QUEUE, opts);
-
-    /**
      * Que to pull `publish` events from.
      *
      * @private
      * @property {Worker}
      */
-    this._worker = new Worker(_.PUBLISH_QUEUE, this.process.bind(this), opts);
+    this._worker = new Worker(_.START_PUBLISH_QUEUE, this.process.bind(this), opts);
+
+    /**
+     * Queue to create `start-publish` jobs on.
+     *
+     * @private
+     * @property {Queue}
+     */
+    this._queue = new Queue(_.DO_PUBLISH_QUEUE, opts);
+
+    /**
+     * @private
+     * @property {QueueScheduler}
+     */
+    this._queueScheduler = new QueueScheduler(_.DO_PUBLISH_QUEUE, opts);
   }
 
   /**
@@ -85,13 +85,13 @@ export default class StartPublishWorker {
    */
   async destroy () {
     await this._worker.close();
-    await this._queue.clean(0);
     await this._queueScheduler.close();
+    await this._queue.drain(true);
     await this._queue.close();
   }
 
   generateSubscriberKey (topic) {
-    return this._prefix + 'topic_' + topic;
+    return this._prefix + 'subscriber:endpoints:' + topic;
   }
 
   /**
@@ -108,7 +108,7 @@ export default class StartPublishWorker {
     // loop through subscriber endpoints
     // TODO: log endpoint fetch
     const endpoints = await client.smembers(subscriberKey);
-    while (endpoints.length > 0) {
+    while (endpoints.length > 0 && this._worker.isRunning()) {
       // TODO: log batch start
       const jobs = [];
       /**

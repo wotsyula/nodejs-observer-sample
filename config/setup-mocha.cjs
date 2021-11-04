@@ -5,9 +5,11 @@
 const chai = require('chai');
 const sinonChai = require('sinon-chai');
 const chaiHTTP = require('chai-http');
+const chaiAsPromised = require('chai-as-promised');
 
 chai.use(sinonChai);
 chai.use(chaiHTTP);
+chai.use(chaiAsPromised);
 
 // Set up Mocha ----------------------------------
 

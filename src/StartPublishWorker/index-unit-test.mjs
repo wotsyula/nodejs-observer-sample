@@ -19,6 +19,15 @@ describe('UNIT | StartPubishWorker', function () {
     await this.parentQueue.destroy();
   });
 
+  describe('client', function () {
+    it('should return a IORedis client', async function () {
+      const client = await this.worker.client;
+      expect(client).to.have.property('get');
+      expect(client).to.have.property('set');
+      expect(client).to.have.property('del');
+    });
+  });
+
   describe('create()', function () {
     it('should return a new instance of StartPublishWorker', function () {
       expect(StartPublishWorker.create()).to.be.instanceOf(StartPublishWorker);

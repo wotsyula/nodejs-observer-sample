@@ -1,12 +1,10 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-export const PUBLISH_QUEUE = 'publish';
-export const START_PUBLISH_QUEUE = 'start_publish';
-export const DO_PUBLISH_QUEUE = 'do_publish';
+export const START_PUBLISH_QUEUE = 'publish:start';
+export const DO_PUBLISH_QUEUE = 'publish:do';
 /** @type {(import('bullmq').QueueOptions|import('bullmq').QueueSchedulerOptions|import('bullmq').WorkerOptions))} */
 export const DEFAULT_QUEUE_OPTIONS = {
-  autorun: true,
   connection: {
     host: '0.0.0.0',
     port: 6379,
@@ -21,7 +19,7 @@ export const DEFAULT_QUEUE_OPTIONS = {
     sizeLimit: 65536, // 1024 * 64
     timeout: 300000, // 1000 * 60 * 5
   },
-  prefix: 'bullmq_',
+  prefix: '{bullmq}',
   sharedConnection: false,
 };
 export const SLUG_RE = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
@@ -32,7 +30,23 @@ export const INVALID_PAYLOAD_RESULT = -300;
 export const QUE_ADD_ERROR_RESULT = -400;
 export const TEST_CONFIGURATION = {};
 export const TEST_TOPIC = 'test';
-export const TEST_ENDPOINT = 'http://localhost:30001';
+export const TEST_ENDPOINT = 'http://localhost:3000/test';
+export const TEST_ENDPOINT_PATH = '/test';
+export const TEST_ENDPOINT_200_RESULT = [
+  200,
+  '{"data":null}',
+  { 'Content-Type': 'application/json' },
+];
+export const TEST_ENDPOINT_5XX_RESULT = [
+  500,
+  '{"errors":[{"status":"500","title":"Internal Server Error","detail":"Oh no!"}]}',
+  { 'Content-Type': 'application/json' },
+];
+export const TEST_ENDPOINT_4XX_RESULT = [
+  404,
+  '{"errors":[{"status":"404","title":"Not Found","detail":"Oh no!"}]}',
+  { 'Content-Type': 'application/json' },
+];
 export const TEST_PAYLOAD = {
   data: {
     type: 'articles',
@@ -54,6 +68,10 @@ export const TEST_PAYLOAD = {
 export const TEST_START_PUBLISH_JOB = {
   name: TEST_TOPIC,
   data: TEST_PAYLOAD,
+};
+export const TEST_DO_PUBLISH_JOB = {
+  name: TEST_TOPIC,
+  data: { endpoint: TEST_ENDPOINT, payload: TEST_PAYLOAD },
 };
 export const VALID_TOPICS = [
   TEST_TOPIC,
@@ -165,5 +183,19 @@ export const INVALID_PAYLOADS = [
   {
     foo: 'bar',
     bar: 1,
+  },
+];
+export const INVALID_DO_PUBLISH_JOBS = [
+  {
+    name: INVALID_TOPICS[0],
+    data: { endpoint: TEST_ENDPOINT, payload: TEST_PAYLOAD },
+  },
+  {
+    name: TEST_TOPIC,
+    data: { endpoint: INVALID_URLS[0], payload: TEST_PAYLOAD },
+  },
+  {
+    name: TEST_TOPIC,
+    data: { endpoint: TEST_ENDPOINT, payload: INVALID_PAYLOADS[0] },
   },
 ];

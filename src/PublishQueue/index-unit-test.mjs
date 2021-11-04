@@ -20,6 +20,15 @@ describe('UNIT | PubishQueue', function () {
     await this.queue.destroy();
   });
 
+  describe('client', function () {
+    it('should return a IORedis client', async function () {
+      const client = await this.queue.client;
+      expect(client).to.have.property('get');
+      expect(client).to.have.property('set');
+      expect(client).to.have.property('del');
+    });
+  });
+
   describe('create()', function () {
     it('should return a new instance of PublishQueue', function () {
       expect(PublishQueue.create()).to.be.instanceOf(PublishQueue);
@@ -87,11 +96,9 @@ describe('UNIT | PubishQueue', function () {
     });
 
     it('should call validateTopic() and validateURL()', async function () {
-      await this.queue.subscribe(_.TEST_TOPIC, _.TEST_ENDPOINT);
-      expect(PublishQueue.validateTopic).callCount(1);
-      expect(PublishQueue.validateTopic).calledWith(_.TEST_TOPIC);
-      expect(PublishQueue.validateURL).callCount(1);
-      expect(PublishQueue.validateURL).calledWith(_.TEST_ENDPOINT);
+      await this.queue.subscribe('foo', 'https://example.com/');
+      expect(PublishQueue.validateTopic).calledWith('foo');
+      expect(PublishQueue.validateURL).calledWith('https://example.com/');
     });
 
     it('should handle up to 100000 (100 thousand) subscribers', async function () {
@@ -127,11 +134,10 @@ describe('UNIT | PubishQueue', function () {
     });
 
     it('should call validateTopic() and validateData()', async function () {
-      await this.queue.publish(_.TEST_TOPIC, _.TEST_PAYLOAD);
-      expect(PublishQueue.validateTopic).callCount(1);
-      expect(PublishQueue.validateTopic).calledWith(_.TEST_TOPIC);
-      expect(PublishQueue.validateData).callCount(1);
-      expect(PublishQueue.validateData).calledWith(_.TEST_PAYLOAD);
+      const data = { data: null };
+      await this.queue.publish('bar', data);
+      expect(PublishQueue.validateTopic).calledWith('bar');
+      expect(PublishQueue.validateData).calledWith(data);
     });
 
     it('should increase count', async function () {
