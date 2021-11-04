@@ -20,6 +20,15 @@ describe('UNIT | PubishQueue', function () {
     await this.queue.destroy();
   });
 
+  describe('client', function () {
+    it('should return a IORedis client', async function () {
+      const client = await this.queue.client;
+      expect(client).to.have.property('get');
+      expect(client).to.have.property('set');
+      expect(client).to.have.property('del');
+    });
+  });
+
   describe('create()', function () {
     it('should return a new instance of PublishQueue', function () {
       expect(PublishQueue.create()).to.be.instanceOf(PublishQueue);

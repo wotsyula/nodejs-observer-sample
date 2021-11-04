@@ -79,10 +79,6 @@ export default class DoPublishWorker {
       throw new TypeError('Invalid payload');
     }
 
-    if (!this._worker.isRunning) {
-      return null;
-    }
-
     const topic = job.name;
     const { endpoint, payload } = job.data;
     const result = await superagent
