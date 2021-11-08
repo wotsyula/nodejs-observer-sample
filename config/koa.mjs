@@ -4,6 +4,9 @@
  * @returns {any} Object to pass to `new require('koa')(config)`
  */
 export default async function createKoaConfig () {
-  const config = {};
+  const config = {
+    proxy: true, // trust proxy headers
+    keys: ['P4$$w0rd'], // keys for encrypting cookies
+  };
   return config;
 };
