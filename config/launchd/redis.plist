@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.node-observer.redis</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+      <key>SuccessfulExit</key>
+      <false/>
+    </dict>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/local/opt/redis/vendor/redis-stable/src/redis-server</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string><![CDATA[/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin]]></string>
+    </dict>
+    <key>WorkingDirectory</key>
+    <string>/opt/src/node-observer</string>
+    <key>StandardErrorPath</key>
+    <string>/opt/src/node-observer/redis.log</string>
+    <key>StandardOutPath</key>
+    <string>/opt/src/node-observer/redis.log</string>
+  </dict>
+</plist>

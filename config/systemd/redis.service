@@ -1,11 +1,11 @@
 [Unit]
-Description=Node.js REST server for publisher-node
+Description=Redis DB server for node-observer
 Documentation=https://github.com/wotsyula/nodejs-observer-sample
 #Requires=After=mysql.service       # Requires the mysql service to run first
 
 [Service]
 WorkingDirectory=/opt/src/node-observer
-ExecStart=/usr/local/bin/node /opt/src/node-observer/bin/publisher-node.mjs
+ExecStart=/opt/src/node-observer/vendor/redis-stable/src/redis-server
 Restart=always
 # Restart service after 10 seconds if node service crashes
 RestartSec=10
