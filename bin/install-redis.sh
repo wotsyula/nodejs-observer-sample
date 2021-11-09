@@ -23,8 +23,3 @@ curl --output - $REDIS_URL | tar -xz
 
 cd $REDIS_FILE
 make
-
-# Run -------------------------------------------------------------------------
-
-echo "Starting redis server..."
-src/redis-server
